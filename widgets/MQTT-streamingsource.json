@@ -14,12 +14,10 @@
         {
           "name": "topic",
           "widget-type": "textbox",
-          "label": "MQTT Topic"
-        },
-        {
-          "name": "outputColumn",
-          "widget-type": "textbox",
-          "label": "Output Column"
+          "label": "MQTT Topic",
+          "widget-attributes": {
+            "default": "tcp://localhost"
+          }
         }
       ]
     }
@@ -32,7 +30,7 @@
         "type": "record",
         "fields": [
           {
-            "name": "mqtt_output",
+            "name": "event",
             "type": "string"
           }
         ]

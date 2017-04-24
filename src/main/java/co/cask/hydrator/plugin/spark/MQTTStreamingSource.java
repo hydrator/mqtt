@@ -31,21 +31,21 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.mqtt.MQTTUtils;
 
 /**
- * Source that monitors a directory and reads files from it.
+ * Source that subscribes to a MQTT broker and listens to it.
  */
 @Plugin(type = StreamingSource.PLUGIN_TYPE)
 @Name("MQTT")
 @Description("Listens to an MQTT broker and subscribes to a given topic.")
 public class MQTTStreamingSource extends ReferenceStreamingSource<StructuredRecord> {
-  public static final String FIELD_NAME = "mqtt_output";
+  public static final String FIELD_NAME = "event";
   public static final Schema SCHEMA =
     Schema.recordOf("schema", Schema.Field.of(FIELD_NAME, Schema.of(Schema.Type.STRING)));
 
-  private final Conf conf;
+  private final Config config;
 
-  public MQTTStreamingSource(Conf conf) {
-    super(conf);
-    this.conf = conf;
+  public MQTTStreamingSource(Config config) {
+    super(config);
+    this.config = config;
   }
 
   @Override
@@ -57,7 +57,7 @@ public class MQTTStreamingSource extends ReferenceStreamingSource<StructuredReco
   @Override
   public JavaDStream<StructuredRecord> getStream(StreamingContext context) throws Exception {
     JavaDStream<String> mqttStringStream =
-      MQTTUtils.createStream(context.getSparkStreamingContext(), conf.getBrokerUrl(), conf.getTopic());
+      MQTTUtils.createStream(context.getSparkStreamingContext(), config.getBrokerUrl(), config.getTopic());
 
     return mqttStringStream.map(new Function<String, StructuredRecord>() {
       @Override
@@ -72,7 +72,7 @@ public class MQTTStreamingSource extends ReferenceStreamingSource<StructuredReco
   /**
    * Configuration for the source.
    */
-  public static class Conf extends ReferencePluginConfig {
+  public static class Config extends ReferencePluginConfig {
     @Macro
     @Description("The URL of the MQTT broker to connect to.")
     private String brokerUrl;
@@ -81,7 +81,7 @@ public class MQTTStreamingSource extends ReferenceStreamingSource<StructuredReco
     @Description("The MQTT topic to listen to.")
     private String topic;
 
-    public Conf() {
+    public Config() {
       super(null);
       this.brokerUrl = "";
       this.topic = "";

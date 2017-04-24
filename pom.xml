@@ -61,9 +61,9 @@
     <widgets.dir>widgets</widgets.dir>
     <docs.dir>docs</docs.dir>
     <!-- properties for script build step that creates the config files for the artifacts -->
-    <app.parents>system:cdap-data-pipeline[4.1.0,4.2.0-SNAPSHOT),system:cdap-data-streams[4.1.0,4.2.0-SNAPSHOT)</app.parents>
+    <app.parents>system:cdap-data-streams[4.1.0,4.2.0-SNAPSHOT)</app.parents>
     <main.basedir>${project.basedir}</main.basedir>
-    <cdap.version>4.1.0</cdap.version>
+    <cdap.version>4.1.1</cdap.version>
     <hydrator.version>1.6.0</hydrator.version>
     <spark.version>1.6.0</spark.version>
   </properties>
